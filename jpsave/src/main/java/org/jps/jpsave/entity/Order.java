@@ -6,6 +6,7 @@ import java.util.Objects;
 public class Order {
     private int id;
     private String name;
+    private String city;
 
     public Order() {
     }
@@ -13,6 +14,12 @@ public class Order {
     public Order(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public Order(int id, String name, String city) {
+        this.id = id;
+        this.name = name;
+        this.city = city;
     }
 
     public int getId() {
@@ -31,9 +38,21 @@ public class Order {
         this.name = name;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
-        return "Order " + name + " (" + id + ")";
+        return "Order{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                '}';
     }
 
     @Override

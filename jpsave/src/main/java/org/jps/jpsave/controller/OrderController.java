@@ -1,6 +1,8 @@
 package org.jps.jpsave.controller;
 
+import org.jps.jpsave.dto.OrderRequest;
 import org.jps.jpsave.entity.Order;
+import org.jps.jpsave.service.GouvGeoService;
 import org.jps.jpsave.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +19,10 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> addOrder(@RequestBody Order orderReq) {
+    public ResponseEntity<Order> addOrderWithCity(@RequestBody OrderRequest orderReq) {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
-        Order order = orderService.addOrder(orderReq.getName());
+        Order order = orderService.addOrderWithCity(orderReq);
         if (order != null) {
             status = HttpStatus.OK;
         }
@@ -70,10 +72,11 @@ public class OrderController {
 
 
     @PutMapping
-    public ResponseEntity<Order> setOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> setOrder(@RequestBody OrderRequest orderReq) {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
-        if (orderService.setOrder(order)) {
+        Order order = orderService.setOrder(orderReq);
+        if (order != null) {
             status = HttpStatus.OK;
         }
 
