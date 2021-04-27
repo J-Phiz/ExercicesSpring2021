@@ -10,8 +10,10 @@ import java.util.List;
 public class OrderService {
     List<Order> orders = new ArrayList<>();
 
+    private static int increment = 0;
+
     public Order addOrder(String orderName) {
-        Order order = new Order(orders.size(), orderName);
+        Order order = new Order(increment++, orderName);
         orders.add(order);
         return order;
     }

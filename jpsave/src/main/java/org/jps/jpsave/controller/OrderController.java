@@ -17,10 +17,10 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<Order> addOrder(@RequestBody String name) {
+    public ResponseEntity<Order> addOrder(@RequestBody Order orderReq) {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
-        Order order = orderService.addOrder(name);
+        Order order = orderService.addOrder(orderReq.getName());
         if (order != null) {
             status = HttpStatus.OK;
         }
