@@ -1,7 +1,6 @@
 package org.jps.jpsave.controller;
 
 import org.jps.jpsave.dto.OrderRequest;
-import org.jps.jpsave.entity.Order;
 import org.jps.jpsave.exception.NotFoundException;
 import org.jps.jpsave.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,12 @@ public class ViewController {
         model.addAttribute("orderRequest", new OrderRequest());
         model.addAttribute("orders", orderService.getOrders());
         return "view";
+    }
+
+    @GetMapping("{id}")
+    public String viewDescription(Model model, @PathVariable("id") int id) throws NotFoundException {
+        model.addAttribute("order", orderService.getOrderById(id));
+        return "view-by-id";
     }
 
     @PostMapping(params="create")

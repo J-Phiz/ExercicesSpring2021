@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title th:utext="${order.name}"></title>
+</head>
+<body>
+    <header th:insert="fragments.html :: header (title = 'Orders Management')"></header>
+    <h2>Order Description</h2>
+    <ul>
+        <li><b>Reference: </b><span th:utext="${order.id}"></span></li>
+        <li><b>Name: </b><span th:utext="${order.name}"></span></li>
+        <li><b>City: </b><span th:utext="${order.city}"></span></li>
+    </ul>
+    <a th:href="@{/view}">Orders list</a>
+    <footer th:insert="fragments.html :: footer"> </footer>
+</body>
+
+</html>

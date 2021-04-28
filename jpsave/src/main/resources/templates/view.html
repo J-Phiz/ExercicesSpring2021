@@ -23,7 +23,7 @@
             </tr>
             <tr th:each ="order : ${orders}">
                 <form action="#" th:action="@{/view/delete/{id}(id=${order.id})}" th:method="post">
-                    <td th:utext="${order.name}"></td>
+                    <td><a th:href="@{/view/{id}(id=${order.id})}" th:utext="${order.name}"></a></td>
                     <td th:utext="${order.city}"></td>
                     <td><input type="submit" name="suppress" th:id="${order.id}" value="Suppress"/></td>
                 </form>

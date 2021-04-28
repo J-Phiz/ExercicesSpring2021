@@ -29,10 +29,10 @@ public class GouvGeoService {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<GouvGeo[]> response = restTemplate.getForEntity(getUrl(lat, lon), GouvGeo[].class);
-        if (response.getStatusCode() == HttpStatus.OK && response.hasBody()) {
-            ret = Objects.requireNonNull(response.getBody())[0].getNom();
+        if (response.getStatusCode() == HttpStatus.OK && response.hasBody() && response.getBody().length > 0) {
+            ret = response.getBody()[0].getNom();
         } else {
-            throw new NotFoundException("City at lat:" + lat + "and lon:" + lon + " is not found");
+            throw new NotFoundException("City at lat:" + lat + " and lon:" + lon + " is not found");
         }
 
         return ret;
