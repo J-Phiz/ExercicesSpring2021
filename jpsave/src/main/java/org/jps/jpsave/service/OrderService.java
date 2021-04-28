@@ -23,9 +23,15 @@ public class OrderService {
         orders.add(order);
     }
 
-    public Order addOrderWithCity(OrderRequest orderRequest) throws NotFoundException {
-        Order order = new Order(increment++, orderRequest.getName(), gouvGeoService.findCity(orderRequest.getLat(), orderRequest.getLon()));
-        orders.add(order);
+    public Order addOrderWithCity(OrderRequest orderRequest) throws NotFoundException, IllegalArgumentException {
+        Order order = null;
+
+        if (orderRequest.getName().isEmpty()) {
+            throw new IllegalArgumentException("Order name have to be filled");
+        } else {
+            order = new Order(increment++, orderRequest.getName(), gouvGeoService.findCity(orderRequest.getLat(), orderRequest.getLon()));
+            orders.add(order);
+        }
         return order;
     }
 
