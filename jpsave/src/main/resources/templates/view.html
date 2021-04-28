@@ -16,10 +16,11 @@
     <div th:if="${!orders.isEmpty()}">
         <hr/>
         <h2>Orders List</h2>
-        <table border="1">
+        <table>
             <tr>
                 <th>Name</th>
                 <th>City</th>
+                <th> </th>
             </tr>
             <tr th:each ="order : ${orders}">
                 <form action="#" th:action="@{/view/delete/{id}(id=${order.id})}" th:method="post">
@@ -32,5 +33,26 @@
     </div>
     <footer th:insert="fragments.html :: footer"> </footer>
 </body>
+
+<style>
+    table {
+border: medium solid #6495ed;
+border-collapse: collapse;
+width: 50%;
+}
+th {
+border: thin solid #6495ed;
+width: 50%;
+padding: 5px;
+background-color: #D0E3FA;
+}
+td {
+border: thin solid #6495ed;
+width: 50%;
+padding: 5px;
+text-align: center;
+background-color: #ffffff;
+}
+</style>
 
 </html>
