@@ -6,6 +6,16 @@ public class OrderRequest {
     private double lat;
     private double lon;
 
+    public OrderRequest() {
+
+    }
+
+    public OrderRequest(String name, double lat, double lon) {
+        this.name = name;
+        this.lat = lat;
+        this.lon = lon;
+    }
+
     public int getId() {
         return id;
     }

@@ -1,14 +1,13 @@
 package org.jps.jpsave.controller;
 
 import org.jps.jpsave.dto.OrderRequest;
+import org.jps.jpsave.entity.Order;
+import org.jps.jpsave.exception.NotFoundException;
 import org.jps.jpsave.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/view")
@@ -19,17 +18,20 @@ public class ViewController {
 
     @GetMapping()
     public String viewGet(Model model) {
-        System.out.println("Je suis dans le get");
         model.addAttribute("orderRequest", new OrderRequest());
         model.addAttribute("orders", orderService.getOrders());
         return "view";
     }
 
-    @PostMapping()
-    public String viewPost(Model model, @ModelAttribute("orderRequest") OrderRequest orderRequest) {
-        System.out.println("Je suis dans le post");
+    @PostMapping(params="create")
+    public String viewPostAdd(Model model, @ModelAttribute("orderRequest") OrderRequest orderRequest) {
         orderService.addOrderWithCity(orderRequest);
-        return "view";
+        return "redirect:/view";
     }
 
+    @PostMapping("/delete/{id}")
+    public String viewPostSuppress(Model model, @PathVariable("id") int id) throws NotFoundException {
+        orderService.deleteOrderById(id);
+        return "redirect:/view";
+    }
 }

@@ -5,32 +5,30 @@
     <title>Orders</title>
 </head>
 <body>
-    <h1>Add new Order</h1>
-    <form th:action="@{/view}"
-          th:object="${orderRequest}" method="POST">
-        Order Name:
-        <input type="text" th:field="*{name}" /> <br/>
-        Order Latitude:
-        <input type="text" th:field="*{lat}" /> <br/>
-        Order Longitude:
-        <input type="text" th:field="*{lon}" /> <br/>
-        <input type="submit" value="Create" />
+    <h2>Add new Order</h2>
+    <form action="#" th:action="@{/view}" th:method="post" th:object="${orderRequest}">
+        <input type="text" placeholder="Order Name" th:field="*{name}"/>
+        <input type="number" step="0.00001" placeholder="Order Lattitude" th:field="*{lat}"/>
+        <input type="number" step="0.00001" placeholder="Order Longitude" th:field="*{lon}"/>
+        <input type="submit" name="create" value="Create"/>
     </form>
-
-    <h1>Orders List</h1>
-    <div>
+    <div th:if="${!orders.isEmpty()}">
+        <hr/>
+        <h2>Orders List</h2>
         <table border="1">
             <tr>
                 <th>Name</th>
                 <th>City</th>
             </tr>
             <tr th:each ="order : ${orders}">
-                <td th:utext="${order.name}"></td>
-                <td th:utext="${order.city}"></td>
+                <form action="#" th:action="@{/view/delete/{id}(id=${order.id})}" th:method="post">
+                    <td th:utext="${order.name}"></td>
+                    <td th:utext="${order.city}"></td>
+                    <td><input type="submit" name="suppress" th:id="${order.id}" value="Suppress"/></td>
+                </form>
             </tr>
         </table>
     </div>
-
 </body>
 
 </html>
