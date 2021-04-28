@@ -5,6 +5,7 @@
     <title>Orders</title>
 </head>
 <body>
+    <header th:insert="fragments.html :: header (title = 'Orders Management')"></header>
     <h2>Add new Order</h2>
     <form action="#" th:action="@{/view}" th:method="post" th:object="${orderRequest}">
         <input type="text" placeholder="Order Name" th:field="*{name}"/>
@@ -29,6 +30,7 @@
             </tr>
         </table>
     </div>
+    <footer th:insert="fragments.html :: footer"> </footer>
 </body>
 
 </html>
