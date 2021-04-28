@@ -6,6 +6,16 @@
 </head>
 <body>
     <h1>Add new Order</h1>
+    <form th:action="@{/view}"
+          th:object="${orderRequest}" method="POST">
+        Order Name:
+        <input type="text" th:field="*{name}" /> <br/>
+        Order Latitude:
+        <input type="text" th:field="*{lat}" /> <br/>
+        Order Longitude:
+        <input type="text" th:field="*{lon}" /> <br/>
+        <input type="submit" value="Create" />
+    </form>
 
     <h1>Orders List</h1>
     <div>
