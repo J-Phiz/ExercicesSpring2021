@@ -1,11 +1,19 @@
 package org.jps.jpsave.entity;
 
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "MYORDER")
 public class Order {
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "NAME")
     private String name;
+    @Column(name = "CITY")
     private String city;
 
     public Order() {
