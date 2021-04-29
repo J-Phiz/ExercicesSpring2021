@@ -10,7 +10,7 @@ public class Order {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name = "NAME")
     private String name;
     @Column(name = "CITY")
@@ -19,22 +19,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Order(int id, String name, String city) {
-        this.id = id;
-        this.name = name;
-        this.city = city;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -68,7 +57,7 @@ public class Order {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id;
+        return id.intValue() == order.id.intValue();
     }
 
     @Override
