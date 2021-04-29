@@ -30,7 +30,7 @@ public class OrderController {
     }
 
     @GetMapping("/search")
-    public Order searchOrders(@RequestParam("name") String name) throws NotFoundException {
+    public List<Order> searchOrders(@RequestParam(value = "name", required = false) String name) throws NotFoundException {
         return orderService.getOrderByName(name);
     }
 

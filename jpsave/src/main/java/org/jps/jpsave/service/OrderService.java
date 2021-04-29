@@ -38,8 +38,12 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order " + id + " not found"));
     }
 
-    public Order getOrderByName(String name) throws NotFoundException {
-        return orderRepository.findByName(name).orElseThrow(() -> new NotFoundException("Order " + name + " not found"));
+    public List<Order> getOrderByName(String name) throws NotFoundException {
+        List<Order> orders = orderRepository.findByName(name);
+        if(orders == null || orders.isEmpty()) {
+            throw new NotFoundException("Order " + name + " not found");
+        }
+        return orders;
     }
 
     public void setOrder(OrderRequest orderReq) throws NotFoundException {

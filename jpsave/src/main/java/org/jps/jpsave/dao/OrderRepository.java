@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface OrderRepository extends CrudRepository<Order, Integer> {
 
-    Optional<Order> findByName(String name);
+    List<Order> findByName(String name);
 
     @Override
     List<Order> findAll();
