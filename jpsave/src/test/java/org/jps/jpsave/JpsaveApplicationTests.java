@@ -3,6 +3,7 @@ package org.jps.jpsave;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.jps.jpsave.dto.OrderRequest;
 import org.jps.jpsave.entity.Order;
 import org.jps.jpsave.service.OrderService;
 import org.junit.jupiter.api.AfterEach;
@@ -33,15 +34,16 @@ class JpsaveApplicationTests {
     @Autowired
     private OrderService orderService;
 
-    @AfterEach
-    void afterTests() {
+    @BeforeEach
+    void deleteDb() {
+        System.out.println("Je suis dans deleteDb");
         List<Integer> ids = orderService.getOrders().stream().map(Order::getId).collect(Collectors.toList());
         ids.forEach(id -> orderService.deleteOrderById(id));
     }
 
     @Test
     void getOrder() throws Exception {
-        orderService.addOrder("bob");
+        orderService.addOrderWithCity(new OrderRequest("bob", 47.36, 0.74));
 
         mvc.perform(
                 get("/order/" + orderService.getOrders().get(0).getId())
@@ -54,8 +56,8 @@ class JpsaveApplicationTests {
 
     @Test
     void getOrders() throws Exception {
-        orderService.addOrder("bob");
-        orderService.addOrder("bob2");
+        orderService.addOrderWithCity(new OrderRequest("bob", 47.36, 0.74));
+        orderService.addOrderWithCity(new OrderRequest("bob2", 48.36, 0.74));
 
         mvc.perform(get("/order/list").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -68,14 +70,14 @@ class JpsaveApplicationTests {
 
     @Test
     void createOrder() throws Exception {
-        Order order = new Order();
-        order.setName("bob");
+        System.out.println("Je suis dans createOrder");
+        OrderRequest orderRequest = new OrderRequest("bob", 47.36, 0.74);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 
-        String requestJson=ow.writeValueAsString(order);
+        String requestJson=ow.writeValueAsString(orderRequest);
 
         mvc.perform(post("/order")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -89,41 +91,41 @@ class JpsaveApplicationTests {
 
     @Test
     void putOrders() throws Exception {
-        orderService.addOrder("bob");
+        orderService.addOrderWithCity(new OrderRequest("bob", 47.36, 0.74));
 
-        Order order = new Order();
-        order.setId(orderService.getOrders().get(0).getId());
-        order.setName("Jean-Bob");
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setId(orderService.getOrders().get(0).getId());
+        orderRequest.setName("Jean-Bob");
+        orderRequest.setLat(48.36);
+        orderRequest.setLon(0.74);
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 
-        String requestJson=ow.writeValueAsString(order);
+        String requestJson=ow.writeValueAsString(orderRequest);
 
         mvc.perform(put("/order")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson)
         )
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", is(orderService.getOrders().get(0).getId())))
-                .andExpect(jsonPath("$.name", is("Jean-Bob")));
+                .andExpect(status().isOk());
     }
 
     @Test
     void deleteOrder() throws Exception {
-        orderService.addOrder("bob");
-        orderService.addOrder("bob2");
+        orderService.addOrderWithCity(new OrderRequest("bob", 47.36, 0.74));
+        orderService.addOrderWithCity(new OrderRequest("bob2", 48.36, 0.74));
 
-        mvc.perform(delete("/order/0").contentType(MediaType.APPLICATION_JSON))
+        List<Order> ordersBefore = orderService.getOrders();
+        Integer beforeId = ordersBefore.get(1).getId();
+
+        mvc.perform(delete("/order/"+ordersBefore.get(0).getId()))
                 .andExpect(status().isOk());
 
-        List<Order> orders = orderService.getOrders();
-        System.out.println("size" + orders.size());
-        assertEquals(orders.size(), 1);
-        System.out.println("val" + orders.get(0));
-        assertEquals(orders.get(0).getId(), 1);
+        List<Order> ordersAfter = orderService.getOrders();
+        assertEquals(1, ordersAfter.size());
+        assertEquals(beforeId, ordersAfter.get(0).getId());
     }
 
 }
