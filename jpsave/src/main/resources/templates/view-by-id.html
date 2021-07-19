@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
 <head>
     <meta charset="UTF-8" />
     <title th:utext="${order.name}"></title>
@@ -12,7 +13,7 @@
         <li><b>Name: </b><span th:utext="${order.name}"></span></li>
         <li><b>City: </b><span th:utext="${order.city}"></span></li>
     </ul>
-    <a th:href="@{/view}">Orders list</a>
+    <a th:href="@{/view/}">Orders list</a>
     <footer th:insert="fragments.html :: footer"> </footer>
 </body>
 

@@ -4,6 +4,7 @@ import org.jps.jpsave.dto.OrderRequest;
 import org.jps.jpsave.exception.NotFoundException;
 import org.jps.jpsave.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,12 +32,13 @@ public class ViewController {
     @PostMapping(params="create")
     public String viewPostAdd(Model model, @ModelAttribute("orderRequest") OrderRequest orderRequest) {
         orderService.addOrderWithCity(orderRequest);
-        return "redirect:/view";
+        return "redirect:/view/";
     }
 
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String viewPostSuppress(Model model, @PathVariable("id") int id) throws NotFoundException {
         orderService.deleteOrderById(id);
-        return "redirect:/view";
+        return "redirect:/view/";
     }
 }
